@@ -112,6 +112,8 @@ defmodule Dantzig.HiGHS do
 
     bounds = all_variable_bounds(Map.values(problem.variables))
 
+    generals = all_variable_generals(Map.values(problem.variables))
+
     [
       direction_to_iodata(problem.direction),
       "\n  ",
@@ -122,6 +124,7 @@ defmodule Dantzig.HiGHS do
       "Bounds\n",
       bounds,
       "General\n",
+      generals,
       "End\n"
     ]
   end
@@ -144,5 +147,12 @@ defmodule Dantzig.HiGHS do
 
   defp all_variable_bounds(variables) do
     Enum.map(variables, &variable_bounds/1)
+  end
+
+  defp all_variable_generals(variables) do
+    variables
+    |> Enum.filter(fn variable -> variable.type == :integer end)
+    |> Enum.map(fn variable -> variable.name end)
+    |> Enum.join("\n")
   end
 end
