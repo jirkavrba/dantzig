@@ -153,6 +153,7 @@ defmodule Dantzig.HiGHS do
     variables
     |> Enum.filter(fn variable -> variable.type == :integer end)
     |> Enum.map(fn variable -> variable.name end)
+    |> Enum.concat([""])
     |> Enum.join("\n")
   end
 end
